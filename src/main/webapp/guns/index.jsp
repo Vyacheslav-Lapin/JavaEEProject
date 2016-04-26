@@ -2,11 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 
-<sql:setDataSource var="snapshot" driver="org.h2.Driver"
-                   url="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"/>
-
-<sql:query dataSource="${snapshot}" var="guns">
-    SELECT name, caliber from Gun;
+<sql:query dataSource="jdbc/TestDB" var="guns">
+    SELECT id, name, caliber from Gun;
 </sql:query>
 
 <html>
