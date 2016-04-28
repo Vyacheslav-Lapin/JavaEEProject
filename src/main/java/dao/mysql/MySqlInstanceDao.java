@@ -1,4 +1,4 @@
-package dao.h2;
+package dao.mysql;
 
 import dao.interfaces.InstanceDao;
 import model.Gun;
@@ -9,9 +9,9 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @FunctionalInterface
-public interface H2InstanceDao extends InstanceDao {
+public interface MySqlInstanceDao extends InstanceDao {
 
-    static H2InstanceDao from(Supplier<Connection> connectionSupplier) {
+    static MySqlInstanceDao from(Supplier<Connection> connectionSupplier) {
         return connectionSupplier::get;
     }
 

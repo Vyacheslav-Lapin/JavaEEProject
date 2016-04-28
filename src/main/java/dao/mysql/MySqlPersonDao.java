@@ -1,4 +1,4 @@
-package dao.h2;
+package dao.mysql;
 
 import dao.interfaces.PersonDao;
 import model.Person;
@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @FunctionalInterface
-public interface H2PersonDao extends PersonDao {
+public interface MySqlPersonDao extends PersonDao {
 
-    static H2PersonDao from(Supplier<Connection> connectionSupplier) {
+    static MySqlPersonDao from(Supplier<Connection> connectionSupplier) {
         return connectionSupplier::get;
     }
 

@@ -1,4 +1,4 @@
-package dao.h2;
+package dao.mysql;
 
 import dao.interfaces.GunDao;
 import model.Gun;
@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @FunctionalInterface
-public interface H2GunDao extends GunDao {
+public interface MySqlGunDao extends GunDao {
 
-    static H2GunDao from(Supplier<Connection> connectionSupplier) {
+    static MySqlGunDao from(Supplier<Connection> connectionSupplier) {
         return connectionSupplier::get;
     }
 

@@ -1,13 +1,11 @@
 package listeners;
 
-import dao.h2.H2GunDao;
-import dao.h2.H2InstanceDao;
-import dao.h2.H2PersonDao;
+import dao.mysql.MySqlGunDao;
+import dao.mysql.MySqlInstanceDao;
+import dao.mysql.MySqlPersonDao;
 import dao.interfaces.PersonDao;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -19,20 +17,8 @@ import java.sql.SQLException;
 @WebListener
 public class DbInitializer implements ServletContextListener {
 
-    private static final DataSource ds;
-
-    static {
-        try {
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-//            ds = (DataSource) envContext.lookup("jdbc/TestDB");
-            ds = (DataSource) envContext.lookup("jdbc/ProdDB");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-//    private static final String DB_PREPARE_FILE_NAME = "/WEB-INF/classes/h2.sql";
+    @Resource(name="jdbc/ProdDB")
+    private static DataSource ds;
 
     public static final String PERSON_DAO = "personDao";
     public static final String GUN_DAO = "gunDao";
@@ -43,10 +29,10 @@ public class DbInitializer implements ServletContextListener {
 
         final ServletContext servletContext = sce.getServletContext();
 
-        final PersonDao personDao = H2PersonDao.from(DbInitializer::getConnection);
+        final PersonDao personDao = MySqlPersonDao.from(DbInitializer::getConnection);
         servletContext.setAttribute(PERSON_DAO, personDao);
-        servletContext.setAttribute(GUN_DAO, H2GunDao.from(DbInitializer::getConnection));
-        servletContext.setAttribute(INSTANCE_DAO, H2InstanceDao.from(DbInitializer::getConnection));
+        servletContext.setAttribute(GUN_DAO, MySqlGunDao.from(DbInitializer::getConnection));
+        servletContext.setAttribute(INSTANCE_DAO, MySqlInstanceDao.from(DbInitializer::getConnection));
     }
 
     public static Connection getConnection() {
