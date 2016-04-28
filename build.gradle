@@ -14,7 +14,7 @@ dependencies {
     providedCompile 'org.apache.tomcat:tomcat-api:+'
     providedCompile 'org.apache.tomcat:tomcat-jsp-api:+'
 
-    compile 'com.h2database:h2:+'
+    compile 'mysql:mysql-connector-java:5.1.35'
 
     // JSTL
     compile 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:+'
@@ -25,6 +25,7 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:+'
 
     testCompile 'junit:junit:+'
+    testCompile 'com.h2database:h2:+'
 }
 
 version = "1.0-SNAPSHOT"

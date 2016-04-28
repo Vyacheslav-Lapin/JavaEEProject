@@ -13,15 +13,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @WebListener
 public class DbInitializer implements ServletContextListener {
@@ -32,13 +25,14 @@ public class DbInitializer implements ServletContextListener {
         try {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
-            ds = (DataSource) envContext.lookup("jdbc/TestDB");
+//            ds = (DataSource) envContext.lookup("jdbc/TestDB");
+            ds = (DataSource) envContext.lookup("jdbc/ProdDB");
         } catch (NamingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static final String DB_PREPARE_FILE_NAME = "/WEB-INF/classes/h2.sql";
+//    private static final String DB_PREPARE_FILE_NAME = "/WEB-INF/classes/h2.sql";
 
     public static final String PERSON_DAO = "personDao";
     public static final String GUN_DAO = "gunDao";
@@ -46,7 +40,6 @@ public class DbInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        initDB(sce);
 
         final ServletContext servletContext = sce.getServletContext();
 
@@ -54,31 +47,6 @@ public class DbInitializer implements ServletContextListener {
         servletContext.setAttribute(PERSON_DAO, personDao);
         servletContext.setAttribute(GUN_DAO, H2GunDao.from(DbInitializer::getConnection));
         servletContext.setAttribute(INSTANCE_DAO, H2InstanceDao.from(DbInitializer::getConnection));
-    }
-
-    private void initDB(ServletContextEvent sce) {
-        try (final Connection connection = ds.getConnection();
-             Statement statement = connection.createStatement()) {
-            final Path path = Paths.get(
-                    sce.getServletContext()
-                            .getRealPath(DB_PREPARE_FILE_NAME));
-
-            final String[] sqls = Files.lines(path)
-                    .collect(Collectors.joining()).split(";");
-
-            Arrays.stream(sqls).forEach(sql -> {
-                try {
-                    statement.addBatch(sql);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            statement.executeBatch();
-
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static Connection getConnection() {

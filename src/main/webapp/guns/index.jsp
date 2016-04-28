@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 
-<sql:query dataSource="jdbc/TestDB" var="guns">
+<sql:query dataSource="jdbc/ProdDB" var="guns">
     SELECT id, name, caliber from Gun;
 </sql:query>
 
