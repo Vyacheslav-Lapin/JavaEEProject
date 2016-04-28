@@ -11,19 +11,18 @@ public interface Dao {
 
     Connection getConnection() throws SQLException;
 
+    @SuppressWarnings("unchecked")
     @Private
-    default <T> Exceptional<T, SQLException> withConnection(
-            ExceptionalFunction<Connection, T, SQLException> jdbcTemplate) {
+    default <T, E extends SQLException> Exceptional<T, E> withConnection(ExceptionalFunction<Connection, T, E> jdbcTemplate) {
         try (final Connection connection = getConnection()) {
             return jdbcTemplate.apply(connection);
         } catch (SQLException e) {
-            return Exceptional.withException(e);
+            return Exceptional.withException((E) e);
         }
     }
 
     @Private
-    default <T> Exceptional<T, SQLException> withStatement(
-            ExceptionalFunction<Statement, T, SQLException> jdbcTemplate) {
+    default <T> Exceptional<T, SQLException> withStatement(ExceptionalFunction<Statement, T, SQLException> jdbcTemplate) {
         return withConnection(connection -> {
             try (final Statement statement = connection.createStatement()) {
                 return jdbcTemplate.get(statement);
@@ -32,8 +31,8 @@ public interface Dao {
     }
 
     @Private
-    default <T> Exceptional<T, SQLException> withPreparedStatement(
-            ExceptionalFunction<PreparedStatement, T, SQLException> jdbcTemplate, String sql) {
+    default <T> Exceptional<T, SQLException> withPreparedStatement(String sql,
+                                                                   ExceptionalFunction<PreparedStatement, T, SQLException> jdbcTemplate) {
         return withConnection(connection -> {
             try (final PreparedStatement statement = connection.prepareStatement(sql)) {
                 return jdbcTemplate.get(statement);
@@ -42,8 +41,8 @@ public interface Dao {
     }
 
     @Private
-    default <T> Exceptional<T, SQLException> withCallableStatement(
-            ExceptionalFunction<CallableStatement, T, SQLException> jdbcTemplate, String call) {
+    default <T> Exceptional<T, SQLException> withCallableStatement(String call,
+                                                                   ExceptionalFunction<CallableStatement, T, SQLException> jdbcTemplate) {
         return withConnection(connection -> {
             try (final CallableStatement callableStatement = connection.prepareCall(call)) {
                 return jdbcTemplate.get(callableStatement);

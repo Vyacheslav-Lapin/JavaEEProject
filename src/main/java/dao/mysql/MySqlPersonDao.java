@@ -3,16 +3,10 @@ package dao.mysql;
 import dao.interfaces.PersonDao;
 import model.Person;
 
-import java.sql.Connection;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @FunctionalInterface
 public interface MySqlPersonDao extends PersonDao {
-
-    static MySqlPersonDao from(Supplier<Connection> connectionSupplier) {
-        return connectionSupplier::get;
-    }
 
     @Override
     default Optional<Person> getPersonById(int id) {

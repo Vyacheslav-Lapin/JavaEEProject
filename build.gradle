@@ -14,6 +14,9 @@ dependencies {
     providedCompile 'org.apache.tomcat:tomcat-api:+'
     providedCompile 'org.apache.tomcat:tomcat-jsp-api:+'
 
+    // Jetty
+//    compile 'org.eclipse.jetty.aggregate:jetty-all:+'
+
     providedCompile 'mysql:mysql-connector-java:5.1.35'
 
     // JSTL

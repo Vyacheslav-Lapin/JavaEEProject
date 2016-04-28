@@ -34,14 +34,10 @@
   examples web application, do not forget to remove the <!.. ..> that surrounds
   them. You will also need to set the passwords to something appropriate.
 -->
-
-  <!--<role rolename="tomcat"/>-->
-  <!--<role rolename="role1"/>-->
-
-  <!--<group groupname="managers" roles="tomcat, role1"/>-->
-
-  <!--<user username="tomcat" password="qwerty" groups="managers"/>-->
-  <!--<user username="both" password="qwerty" roles="tomcat,role1"/>-->
-  <!--<user username="role1" password="qwerty" roles="role1"/>-->
-
+  <role rolename="tomcat"/>
+  <role rolename="role1"/>
+  <role rolename="manager-gui"/>
+<user username="tomcat" password="qwerty123" roles="manager-gui, tomcat"/>
+  <user username="both" password="qwerty123" roles="tomcat, role1"/>
+  <user username="role1" password="qwerty123" roles="role1"/>
 </tomcat-users>

@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Error Page For Examples</title>
+    <title>Login error page</title>
 </head>
-<body bgcolor="white">
-Invalid username and/or password, please try
-<a href='<%= response.encodeURL("login.html") %>'>again</a>.
+<body>
+Invalid username and/or password, please
+<a href="login.html">try again</a>.
 </body>
 </html>

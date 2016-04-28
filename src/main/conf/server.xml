@@ -132,20 +132,12 @@
       <!-- Use the LockOutRealm to prevent attempts to guess user passwords
            via a brute-force attack -->
       <Realm className="org.apache.catalina.realm.LockOutRealm">
-
         <!-- This Realm uses the UserDatabase configured in the global JNDI
              resources under the key "UserDatabase".  Any edits
              that are performed against this UserDatabase are immediately
              available for use by the Realm.  -->
-        <!--<Realm className="org.apache.catalina.realm.UserDatabaseRealm"-->
-               <!--resourceName="UserDatabase"/>-->
-
-          <Realm className="org.apache.catalina.realm.JDBCRealm"
-                 driverName="com.mysql.jdbc.Driver"
-                 connectionURL="jdbc:mysql://localhost:3306/guns-shop?user=root&amp;password=Qwerty9000"
-                 userTable="users" userNameCol="user_name" userCredCol="user_pass"
-                 userRoleTable="user_roles" roleNameCol="role_name"/>
-
+        <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+               resourceName="UserDatabase"/>
       </Realm>
 
       <Host name="localhost"  appBase="webapps"

@@ -3,19 +3,13 @@ package dao.mysql;
 import dao.interfaces.GunDao;
 import model.Gun;
 
-import java.sql.Connection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @FunctionalInterface
 public interface MySqlGunDao extends GunDao {
-
-    static MySqlGunDao from(Supplier<Connection> connectionSupplier) {
-        return connectionSupplier::get;
-    }
 
     @Override
     default Optional<Gun> getGunById(int id) {
