@@ -1,21 +1,7 @@
-<%@ page import="java.sql.Date" %>
-<%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.Period" %>
-<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
-<%!
-    private int getAge(Map map, String field) {
-        // TODO: 4/25/2016 подумать как обозначить тип поля
-        return getAge((Date) map.get(field));
-    }
-
-    private int getAge(Date date) {
-        return Period.between(date.toLocalDate(), LocalDate.now())
-                .getYears();
-    }
-%>
+<%@ taglib uri="http://epam.com/courses/jf/jsp/common" prefix="cmn" %>
 <html>
 <head>
     <title>GetGuns</title>
@@ -30,13 +16,13 @@
         <th>Age</th>
     </tr>
 
-    <sql:query dataSource="jdbc/TestDB" var="result">SELECT id, first_name, last_name, dob FROM person;</sql:query>
-    <c:forEach var="row" items="${result.rows}">
+    <sql:query dataSource="jdbc/ProdDB" var="persons">SELECT id, first_name, last_name, dob FROM person;</sql:query>
+    <c:forEach var="person" items="${persons.rows}">
         <tr>
-            <td>${row.id}</td>
-            <td>${row.first_name}</td>
-            <td>${row.last_name}</td>
-            <td><%=getAge((Map) pageContext.getAttribute("row"), "dob")%></td>
+            <td>${person.id}</td>
+            <td>${person.first_name}</td>
+            <td>${person.last_name}</td>
+            <td>${cmn:yearsGoneFrom(person.dob)}</td>
         </tr>
     </c:forEach>
 </table>
