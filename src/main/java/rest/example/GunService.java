@@ -1,8 +1,5 @@
 package rest.example;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import dao.interfaces.GunDao;
 import listeners.DbInitializer;
 import model.Gun;
@@ -10,37 +7,36 @@ import model.Gun;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.Collection;
 
-@Path("gunList")
-public class GunService {
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-    @Context
-    private ServletContext context;
+@Path("gunList")
+@Produces(APPLICATION_JSON)
+public class GunService implements JsonRestfulWebService {
 
     private GunDao gunDao;
 
+    @Context
+    public void setContext(ServletContext context) {
+        gunDao = (GunDao) context.getAttribute(DbInitializer.GUN_DAO);
+    }
+
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
-        return toString(getGunDao().getAll());
+    public Response getAll() {
+        final Collection<Gun> guns = gunDao.getAll();
+        return guns.size() > 0 ? ok(guns) : noContent();
     }
 
-    private String toString(Collection<Gun> guns) {
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        try {
-            return ow.writeValueAsString(guns);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public GunDao getGunDao() {
-        if (gunDao == null)
-            gunDao = (GunDao) context.getAttribute(DbInitializer.GUN_DAO);
-        return gunDao;
+    @GET
+    @Path("{id}")
+    public Response get(@PathParam("id") int id) {
+        return gunDao.getGunById(id)
+                .map(this::ok)
+                .orElse(noContent());
     }
 }

@@ -34,6 +34,10 @@ public interface Exceptional<T, E extends Throwable> extends Wrapper<Either<T, E
         }
     }
 
+    default T getOrThrowUnchecked() {
+        return mapException(RuntimeException::new).getOrThrow();
+    }
+
     default <E1 extends Throwable> T getOrThrow(Function<E, E1> exceptionMapper) throws E1 {
         return mapException(exceptionMapper).getOrThrow();
     }
