@@ -20,7 +20,7 @@
         Gun.prototype.name = "";
 
         var /** @type XMLHttpRequest */ xhr = new XMLHttpRequest();
-        xhr.open('GET', '/gunList', true);
+        xhr.open('GET', '/webapi/gunList', true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState !== 4) return;
             if (xhr.status === 200) {

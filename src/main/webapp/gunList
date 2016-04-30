@@ -1,7 +1,28 @@
-[
-  {
-    "id": 1,
-    "caliber": 5,
-    "name": "АК-47"
-  }
-]
+[ {
+  "id" : 1,
+  "name" : "Kolt",
+  "caliber" : 11.52
+}, {
+  "id" : 4,
+  "name" : "AKM-47",
+  "caliber" : 7.62
+}, {
+  "id" : 3,
+  "name" : "Glock",
+  "caliber" : 9.0
+}, {
+  "id" : 5,
+  "name" : "AK-74",
+  "caliber" : 5.45
+}, {
+  "id" : 2,
+  "name" : "Beretta",
+  "caliber" : 6.35
+} ]
+//[
+//  {
+//    "id": 1,
+//    "caliber": 5,
+//    "name": "АК-47"
+//  }
+//]
