@@ -7,7 +7,7 @@ import common.functions.ExceptionalFunction;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
 
-public interface JsonRestfulWebService {
+public interface JsonRestfulWebResource {
 
     ExceptionalFunction<Object, String, JsonProcessingException> toJsonExceptional =
             new ObjectMapper().writer().withDefaultPrettyPrinter()::writeValueAsString;

@@ -15,9 +15,9 @@ import java.util.Collection;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path("gunList")
+@Path("gun")
 @Produces(APPLICATION_JSON)
-public class GunService implements JsonRestfulWebService {
+public class GunResource implements JsonRestfulWebResource {
 
     private GunDao gunDao;
 
