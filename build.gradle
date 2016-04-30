@@ -1,3 +1,5 @@
+version = "1.0-SNAPSHOT"
+
 apply plugin: "java"
 apply plugin: "war"
 
@@ -14,8 +16,8 @@ dependencies {
     providedCompile 'org.apache.tomcat:tomcat-api:+'
     providedCompile 'org.apache.tomcat:tomcat-jsp-api:+'
 
-    // Jetty
-//    compile 'org.eclipse.jetty.aggregate:jetty-all:+'
+    // Jersey
+    compile 'com.sun.jersey:jersey-server:+'
 
     providedCompile 'mysql:mysql-connector-java:5.1.35'
 
@@ -30,5 +32,3 @@ dependencies {
     testCompile 'junit:junit:+'
     testCompile 'com.h2database:h2:+'
 }
-
-version = "1.0-SNAPSHOT"

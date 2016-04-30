@@ -1,0 +1,72 @@
+<!--<%&#45;&#45;<%@ page contentType="text/html;charset=UTF-8" language="java" %>&#45;&#45;%>-->
+<!--<%&#45;&#45;<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>&#45;&#45;%>-->
+<!--<%&#45;&#45;<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>&#45;&#45;%>-->
+
+<!--<%&#45;&#45;<sql:query dataSource="jdbc/ProdDB" var="guns">&#45;&#45;%>-->
+    <!--<%&#45;&#45;SELECT id, name, caliber from Gun;&#45;&#45;%>-->
+<!--<%&#45;&#45;</sql:query>&#45;&#45;%>-->
+
+<html>
+<head>
+    <title>Hello, World!</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/styles/style.css"/>
+    <script type="text/javascript" defer>
+
+        /** @interface */
+        function Gun() {}
+        Gun.prototype.id = 0;
+        Gun.prototype.caliber = 0;
+        Gun.prototype.name = "";
+
+        var /** @type XMLHttpRequest */ xhr = new XMLHttpRequest();
+        xhr.open('GET', '/gunList', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4) return;
+            if (xhr.status === 200) {
+                alert(xhr.responseText);
+
+                var /** @type Array<Gun> */ gunList = eval(xhr.responseText);
+
+                var /** @type HTMLTableElement */ guns = document.getElementById("Guns");
+
+                gunList.forEach(function (gun) {
+                    var /** @type HTMLTableRowElement */ gunTr = document.createElement("tr");
+
+                    var /** @type HTMLTableCellElement*/ name = document.createElement("td");
+                    var /** @type HTMLAnchorElement */ buyLink = document.createElement("a");
+                    buyLink.href = "/buy?id=" + gun.id;
+                    buyLink.innerText = gun.name;
+                    name.appendChild(buyLink);
+                    gunTr.appendChild(name);
+
+                    var /** @type HTMLTableCellElement*/ caliber = document.createElement("td");
+                    caliber.innerText = gun.caliber;
+                    gunTr.appendChild(caliber);
+
+                    guns.appendChild(gunTr);
+                });
+            }
+        };
+        xhr.send(null);
+    </script>
+</head>
+<body>
+<h1>Добро пожаловать!</h1>
+
+<table id="Guns" class="bordered">
+    <tr>
+        <th>Название модели</th>
+        <th>Калибр</th>
+    </tr>
+
+    <!--<%&#45;&#45;<c:forEach var="gun" items="${guns.rows}">&#45;&#45;%>-->
+        <!--<%&#45;&#45;<tr>&#45;&#45;%>-->
+            <!--<%&#45;&#45;<td style="border: 1px solid #000;"><a href="/buy?id=${gun.id}">${gun.name}</a></td>&#45;&#45;%>-->
+            <!--<%&#45;&#45;<td style="border: 1px solid #000;">${gun.caliber}</td>&#45;&#45;%>-->
+        <!--<%&#45;&#45;</tr>&#45;&#45;%>-->
+    <!--<%&#45;&#45;</c:forEach>&#45;&#45;%>-->
+
+</table>
+</body>
+</html>

@@ -9,7 +9,7 @@
 <h1>Gun ${gun.name}</h1>
 
 Название: ${gun.name}<br/>
-Калибр: ${gun.caliber}%>
+Калибр: ${gun.caliber}
 
 </body>
 </html>

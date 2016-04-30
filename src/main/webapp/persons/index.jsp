@@ -4,7 +4,7 @@
 <%@ taglib uri="http://epam.com/courses/jf/jsp/common" prefix="cmn" %>
 <html>
 <head>
-    <title>GetGuns</title>
+    <title>GetPersons</title>
 </head>
 <body>
 
